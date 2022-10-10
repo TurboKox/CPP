@@ -6,9 +6,9 @@
 #include <thread>
 
 //*********************
-//*					  *
+//*		      *
 //* chrome://tracing/ *
-//*					  *
+//*		      *
 //*********************
 
 struct ProfileResult
