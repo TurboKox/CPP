@@ -1,10 +1,77 @@
 #pragma once
 
-// implement erease, iterator, ranged for loop
+template<typename Vector>
+class VectorIterator
+{
+public:
+	using ValueType = typename Vector::ValueType;
+	using PointerType = ValueType*;
+	using ReferenceType = ValueType&;
+public:
+	VectorIterator(PointerType ptr)
+		: m_Ptr(ptr) {}
+
+	VectorIterator& operator++()
+	{
+		m_Ptr++;
+		return *this;
+	}
+
+	VectorIterator& operator++(int)
+	{
+		VectorIterator temporaryIterator = *this;
+		++(*this);
+		return temporaryIterator;
+	}
+
+	VectorIterator& operator--()
+	{
+		m_Ptr--;
+		return *this;
+	}
+
+	VectorIterator& operator--(int)
+	{
+		VectorIterator temporaryIterator = *this;
+		--(*this);
+		return temporaryIterator;
+	}
+
+	ReferenceType operator[](int index)
+	{
+		return *(m_Ptr + index);
+	}
+
+	PointerType operator->()
+	{
+		return m_Ptr;
+	}
+
+	ReferenceType operator*()
+	{
+		return *m_Ptr;
+	}
+
+	bool operator==(const VectorIterator& other)
+	{
+		return m_Ptr == other.m_Ptr;
+	}
+
+	bool operator!=(const VectorIterator& other)
+	{
+		return !(*this == other);
+	}
+
+private:
+	PointerType m_Ptr;
+};
 
 template<typename T>
 class Vector
 {
+public:
+	using ValueType = T;
+	using Iterator = VectorIterator<Vector<T>>;
 public:
 	Vector()
 	{
@@ -81,7 +148,7 @@ public:
 #endif
 		return m_Data[index];
 	}
-	
+
 	T& operator[](size_t index)
 	{
 #ifdef DEBUG_MODE
@@ -94,6 +161,17 @@ public:
 	}
 
 	size_t Size() const { return m_Size; }
+
+	Iterator begin()
+	{
+		return Iterator(m_Data);
+	}
+
+	Iterator end()
+	{
+		return Iterator(m_Data + m_Size);
+	}
+
 private:
 	void ReAlloc(size_t newCapacity)
 	{
@@ -110,7 +188,7 @@ private:
 
 		for (size_t i = 0; i < m_Size; i++)
 		{
-			newBlock[i] = std::move(m_Data[i]);
+			new(&newBlock[i]) T(std::move(m_Data[i]));
 		}
 
 		for (size_t i = 0; i < m_Size; i++)
