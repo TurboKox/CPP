@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include "Vector.h"
 
 struct Vector3
@@ -69,44 +68,29 @@ void PrintVector(const Vector<Vector3>& vector)
 
 int main()
 {
+	Vector<std::string> values;
+	values.EmplaceBack("1");
+	values.EmplaceBack("2");
+	values.EmplaceBack("3");
+	values.EmplaceBack("Szymon");
+	values.EmplaceBack("4");
+	values.EmplaceBack("5");
+
+	std::cout << "Not using iterators:\n";
+	for (int i = 0; i < values.Size(); i++)
 	{
-		Vector<Vector3> vector;
-		vector.EmplaceBack(1.0f);
-		vector.EmplaceBack(2.f, 3.f, 4.f);
-		vector.EmplaceBack(4.f, 6.f, 7.f);
-		vector.EmplaceBack();
-		PrintVector(vector);
-		vector.PopBack();
-		vector.PopBack();
-		PrintVector(vector);
-		vector.EmplaceBack(3.f, 4.f, 1.f);
-		vector.EmplaceBack(5.f, 6.f, 2.f);
-		vector.EmplaceBack(5.f, 6.f, 2.f);
-		vector.EmplaceBack(5.f, 6.f, 2.f);
-		vector.EmplaceBack(5.f, 6.f, 2.f);
-		vector.EmplaceBack(5.f, 6.f, 2.f);
-		vector.EmplaceBack(5.f, 6.f, 2.f);
-		vector.EmplaceBack(5.f, 6.f, 2.f);
-		vector.EmplaceBack(5.f, 6.f, 2.f);
-		PrintVector(vector);
-
-		vector.Clear();
-		PrintVector(vector);
-		vector.EmplaceBack(3.f, 4.f, 1.f);
-		vector.EmplaceBack(5.f, 6.f, 2.f);
-
-		PrintVector(vector);
+		std::cout << values[i] << std::endl;
 	}
 
-	Vector<int> intVector;
-	intVector.PushBack(5);
-	intVector.EmplaceBack(2);
-	intVector.EmplaceBack(2);
-	intVector.EmplaceBack(2);
-	intVector.EmplaceBack(2);
-	intVector.EmplaceBack(6);
-	PrintVector(intVector);
-	intVector.PopBack();
-	PrintVector(intVector);
-	intVector.Clear();
+	std::cout << "Ranged-based for loop:\n";
+	for (auto& value : values)
+	{
+		std::cout << value << std::endl;
+	}
+
+	std::cout << "Iterator:\n";
+	for (Vector<std::string>::Iterator it = values.begin(); it != values.end(); it++)
+	{
+		std::cout << *it << std::endl;
+	}
 }
