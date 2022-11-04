@@ -40,10 +40,7 @@ void DisplayGrid()
 
 void SwapTurns()
 {
-	if (circleTurn)
-		circleTurn = !circleTurn;
-	else
-		circleTurn = true;
+	circleTurn = !circleTurn;
 }
 
 void PlaceMark(std::string value)
